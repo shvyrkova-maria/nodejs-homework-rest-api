@@ -1,89 +1,48 @@
+const { NotFound } = require('http-errors');
 const contactsOperation = require('../model/contacts/index');
+const sendSuccessRes = require('../utils/sendSuccessRes');
 
-const listContacts = async (req, res, next) => {
-  try {
-    const results = await contactsOperation.listContacts();
-    res.json({
-      status: 'success',
-      code: 200,
-      data: { results },
-    });
-  } catch (error) {
-    next(error);
-  }
+const listContacts = async (req, res) => {
+  const results = await contactsOperation.listContacts();
+  sendSuccessRes(res, { results });
 };
 
-const getContactById = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await contactsOperation.getContactById(contactId);
-    if (!result) {
-      const error = new Error('Not found');
-      error.status = 404;
-      throw error;
-    }
-    res.json({
-      status: 'success',
-      code: 200,
-      data: { result },
-    });
-  } catch (error) {
-    next(error);
+const getContactById = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await contactsOperation.getContactById(contactId);
+  if (!result) {
+    throw new NotFound(`Contact with ${contactId} not found`);
   }
+  sendSuccessRes(res, { result });
 };
 
-const addContact = async (req, res, next) => {
-  try {
-    const result = await contactsOperation.addContact(req.body);
-    res.json({
-      status: 'success',
-      code: 201,
-      data: { result },
-      message: 'Contact added',
-    });
-  } catch (error) {
-    next(error);
-  }
+const addContact = async (req, res) => {
+  const result = await contactsOperation.addContact(req.body);
+  sendSuccessRes(res, { result, message: 'Contact added' }, 201);
 };
 
-const removeContactById = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await contactsOperation.removeContactById(contactId);
-    if (!result) {
-      const error = new Error('Not found');
-      error.status = 404;
-      throw error;
-    }
-    res.json({
-      status: 'success',
-      code: 200,
-      message: `Contact with id ${contactId} delete`,
-    });
-  } catch (error) {
-    next(error);
+const removeContactById = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await contactsOperation.removeContactById(contactId);
+  if (!result) {
+    throw new NotFound(`Contact with ${contactId} not found`);
   }
+  sendSuccessRes(res, {
+    message: `Contact with id ${contactId} delete`,
+  });
 };
 
-const updateContact = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await contactsOperation.updateContact(contactId, req.body);
-    if (!result) {
-      const error = new Error(`Contact with id ${contactId} not found`);
-      error.status = 404;
-      throw error;
-    }
-    res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        result,
-      },
-    });
-  } catch (error) {
-    next(error);
+const updateContact = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await contactsOperation.updateContact(contactId, req.body);
+  if (!result) {
+    throw new NotFound(`Contact with ${contactId} not found`);
   }
+
+  sendSuccessRes(res, {
+    result,
+    message: `Contact update`,
+  });
 };
 
 module.exports = {
