@@ -14,7 +14,6 @@ const updateContact = async (contactId, body) => {
     }
     const updatedContact = { ...contacts[contactInx], ...body };
     contacts[contactInx] = updatedContact;
-    console.log(updatedContact);
     await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
     return updatedContact;
   } catch (error) {
