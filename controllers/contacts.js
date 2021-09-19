@@ -28,7 +28,7 @@ const removeContactById = async (req, res) => {
     throw new NotFound(`Contact with ${contactId} not found`);
   }
   sendSuccessRes(res, {
-    message: `Contact with id ${contactId} delete`,
+    message: `Contact with id ${contactId} deleted`,
   });
 };
 
