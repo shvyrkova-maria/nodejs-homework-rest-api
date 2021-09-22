@@ -2,7 +2,7 @@ const { nanoid } = require('nanoid');
 const fs = require('fs/promises');
 const path = require('path');
 const listContacts = require('./listContacts');
-const filePath = path.join(__dirname, '../contacts.json');
+const filePath = path.join(__dirname, '../../db/contacts.json');
 
 const addContact = async ({ name, email, phone }) => {
   try {
