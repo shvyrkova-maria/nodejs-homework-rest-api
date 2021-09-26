@@ -9,7 +9,6 @@ const updateContactStatus = async (req, res) => {
     contactId,
     { favorite },
     { new: true },
-    '_id name email phone favorite',
   );
   if (!result) {
     throw new NotFound(`Contact with ${contactId} not found`);

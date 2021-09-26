@@ -4,12 +4,9 @@ const sendSuccessRes = require('../../utils/sendSuccessRes');
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(
-    contactId,
-    req.body,
-    { new: true },
-    '_id name email phone favorite',
-  );
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
   if (!result) {
     throw new NotFound(`Contact with ${contactId} not found`);
   }

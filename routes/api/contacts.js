@@ -24,7 +24,7 @@ router.put(
 );
 
 router.patch(
-  '/:contactId',
+  '/:contactId/favorite',
   validation(contactStatusValidation),
   controllerWrapper(ctrl.updateContactStatus),
 );

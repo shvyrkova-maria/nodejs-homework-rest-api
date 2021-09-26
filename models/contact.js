@@ -1,29 +1,29 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
-
-const validationMessage = { 'any.required': 'missing required field' };
-const emailRegExp =
-  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-const phoneRegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+const {
+  validationMessage,
+  emailRegExp,
+  phoneRegExp,
+} = require('./validationExp');
 
 const contactSchema = Schema(
   {
     name: {
       type: String,
-      required: [true, ''],
+      required: [true, 'Set name for contact'],
       minlenght: 2,
       maxlenght: 30,
     },
     email: {
       type: String,
-      required: [true, ''],
+      required: true,
       unique: true,
       match: emailRegExp,
       minlenght: 7,
     },
     phone: {
       type: String,
-      required: [true, ''],
+      required: true,
       unique: true,
       match: phoneRegExp,
     },
@@ -51,7 +51,7 @@ const contactValidation = Joi.object({
 });
 
 const contactStatusValidation = Joi.object({
-  favorite: Joi.boolean().required(),
+  favorite: Joi.boolean().required().messages(validationMessage),
 });
 
 const Contact = model('contact', contactSchema);
