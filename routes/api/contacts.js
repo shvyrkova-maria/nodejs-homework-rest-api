@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { controllerWrapper, validation } = require('../../middlewares');
-const { contactValidation } = require('../../models/contact');
+const {
+  contactValidation,
+  contactStatusValidation,
+} = require('../../models/contact');
 const ctrl = require('../../controllers/contacts');
 
 router.get('/', controllerWrapper(ctrl.listContacts));
@@ -14,10 +17,16 @@ router.post(
   controllerWrapper(ctrl.addContact),
 );
 
-router.patch(
+router.put(
   '/:contactId',
   validation(contactValidation),
   controllerWrapper(ctrl.updateContact),
+);
+
+router.patch(
+  '/:contactId',
+  validation(contactStatusValidation),
+  controllerWrapper(ctrl.updateContactStatus),
 );
 
 router.delete('/:contactId', controllerWrapper(ctrl.removeContactById));

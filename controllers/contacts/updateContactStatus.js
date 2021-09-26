@@ -2,16 +2,23 @@ const { NotFound } = require('http-errors');
 const { Contact } = require('../../models');
 const sendSuccessRes = require('../../utils/sendSuccessRes');
 
-const getContactById = async (req, res) => {
+const updateContactStatus = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findById(
+  const { favorite } = req.body;
+  const result = await Contact.findByIdAndUpdate(
     contactId,
+    { favorite },
+    { new: true },
     '_id name email phone favorite',
   );
   if (!result) {
     throw new NotFound(`Contact with ${contactId} not found`);
   }
-  sendSuccessRes(res, { result });
+
+  sendSuccessRes(res, {
+    result,
+    message: `Contact update`,
+  });
 };
 
-module.exports = getContactById;
+module.exports = updateContactStatus;

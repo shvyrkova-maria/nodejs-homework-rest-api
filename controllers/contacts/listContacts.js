@@ -1,8 +1,8 @@
-const contactsOperation = require('../../model/contacts/index');
+const { Contact } = require('../../models');
 const sendSuccessRes = require('../../utils/sendSuccessRes');
 
 const listContacts = async (req, res) => {
-  const results = await contactsOperation.listContacts();
+  const results = await Contact.find({}, '_id name email phone favorite');
   sendSuccessRes(res, { results });
 };
 

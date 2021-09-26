@@ -50,6 +50,10 @@ const contactValidation = Joi.object({
   favorite: Joi.boolean(),
 });
 
+const contactStatusValidation = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 const Contact = model('contact', contactSchema);
 
-module.exports = { Contact, contactValidation };
+module.exports = { Contact, contactValidation, contactStatusValidation };
