@@ -7,14 +7,14 @@ const signUp = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (user) {
-    throw new Conflict(`User with email ${email} already exist`);
+    throw new Conflict(`Email ${email} in use`);
   }
 
   const newUser = new User({ email });
   newUser.setPassword(password);
   await newUser.save();
 
-  sendSuccessRes(res, { message: 'Success signup' }, 201); // result?
+  sendSuccessRes(res, { user: newUser, message: 'Success signup' }, 201);
 };
 
 module.exports = signUp;
