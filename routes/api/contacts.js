@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { controllerWrapper, validation } = require('../../middlewares');
+const {
+  controllerWrapper,
+  validation,
+  authenticate,
+} = require('../../middlewares');
 const {
   contactValidation,
   contactStatusValidation,
@@ -13,6 +17,7 @@ router.get('/:contactId', controllerWrapper(ctrl.getContactById));
 
 router.post(
   '/',
+  authenticate,
   validation(contactValidation),
   controllerWrapper(ctrl.addContact),
 );

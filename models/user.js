@@ -1,7 +1,10 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const { validationMessage, emailRegExp } = require('./validationExp');
+require('dotenv').config();
+const { SECRET_KEY } = process.env;
 
 const userSchema = Schema(
   {
@@ -37,7 +40,6 @@ const userValidation = Joi.object({
     .pattern(emailRegExp)
     .messages(validationMessage),
   subscription: Joi.string().valid('starter', 'pro', 'business'),
-  token: Joi.string(),
 });
 
 userSchema.methods.setPassword = function (password) {
@@ -46,6 +48,11 @@ userSchema.methods.setPassword = function (password) {
 
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.createToken = function () {
+  const payload = { _id: this._id };
+  return jwt.sign(payload, SECRET_KEY);
 };
 
 const User = model('user', userSchema);

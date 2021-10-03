@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { controllerWrapper, validation } = require('../../middlewares');
+const {
+  controllerWrapper,
+  validation,
+  authenticate,
+} = require('../../middlewares');
 const { userValidation } = require('../../models/user');
 const ctrl = require('../../controllers/auth');
 
@@ -14,6 +18,7 @@ router.post(
   validation(userValidation),
   controllerWrapper(ctrl.signIn),
 );
-router.get('/signout', controllerWrapper(ctrl.signOut));
+router.get('/signout', authenticate, controllerWrapper(ctrl.signOut));
+router.get('/current', authenticate, controllerWrapper(ctrl.getCurrentUser));
 
 module.exports = router;
