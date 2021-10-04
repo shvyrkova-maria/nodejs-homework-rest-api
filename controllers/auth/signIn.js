@@ -16,15 +16,7 @@ const signIn = async (req, res) => {
   const { _id } = user;
   const token = user.createToken();
   const updateUser = await User.findByIdAndUpdate(_id, { token });
-  sendSuccessRes(
-    res,
-    {
-      user: updateUser,
-      message: 'Success signin',
-      token,
-    },
-    200,
-  );
+  sendSuccessRes(res, { user: updateUser, message: 'Success signin' }, 200);
 };
 
 module.exports = signIn;
