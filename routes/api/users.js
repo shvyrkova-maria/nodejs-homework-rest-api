@@ -4,9 +4,10 @@ const {
   controllerWrapper,
   validation,
   authenticate,
+  uploadMiddleware,
 } = require('../../middlewares');
 const { userValidation } = require('../../models/user');
-const ctrl = require('../../controllers/auth');
+const ctrl = require('../../controllers/users');
 
 router.post(
   '/signup',
@@ -20,5 +21,12 @@ router.post(
 );
 router.get('/signout', authenticate, controllerWrapper(ctrl.signOut));
 router.get('/current', authenticate, controllerWrapper(ctrl.getCurrentUser));
+
+router.patch(
+  '/avatars',
+  authenticate,
+  uploadMiddleware.single('avatar'),
+  controllerWrapper(ctrl.addUserAvatar),
+);
 
 module.exports = router;
