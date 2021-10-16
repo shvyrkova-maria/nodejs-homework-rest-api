@@ -6,7 +6,7 @@ const {
   authenticate,
   uploadMiddleware,
 } = require('../../middlewares');
-const { userValidation } = require('../../models/user');
+const { userValidation, userEmailValidation } = require('../../models/user');
 const ctrl = require('../../controllers/users');
 
 router.post(
@@ -14,6 +14,14 @@ router.post(
   validation(userValidation),
   controllerWrapper(ctrl.signUp),
 );
+
+router.get('/verify/:verifyToken', controllerWrapper(ctrl.verify));
+router.post(
+  '/verify',
+  validation(userEmailValidation),
+  controllerWrapper(ctrl.reverify),
+);
+
 router.post(
   '/signin',
   validation(userValidation),

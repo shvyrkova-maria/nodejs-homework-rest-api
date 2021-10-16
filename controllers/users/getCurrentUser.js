@@ -1,5 +1,5 @@
 const { Contact } = require('../../models');
-const sendSuccessRes = require('../../utils/sendSuccessRes');
+const { sendSuccessRes } = require('../../utils');
 
 const getCurrentUser = async (req, res) => {
   const { _id, email, subscription } = req.user;

@@ -1,5 +1,5 @@
 const { User } = require('../../models');
-const sendSuccessRes = require('../../utils/sendSuccessRes');
+const { sendSuccessRes } = require('../../utils');
 
 const signOut = async (req, res) => {
   const { _id } = req.user;

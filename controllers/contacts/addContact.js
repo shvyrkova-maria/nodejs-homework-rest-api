@@ -1,5 +1,5 @@
 const { Contact } = require('../../models');
-const sendSuccessRes = require('../../utils/sendSuccessRes');
+const { sendSuccessRes } = require('../../utils');
 
 const addContact = async (req, res) => {
   const result = await Contact.create({ ...req.body, owner: req.user._id });
